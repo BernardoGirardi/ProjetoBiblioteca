@@ -1,43 +1,11 @@
 import express from "express";
-import {Sequelize, DataTypes} from "sequelize";
+import banco from "./banco.js";
+import editora from "./controller/EditoraController.js"
 
-const sequelize = new Sequelize('biblioteca2025', 'postgres', 'Mxk&6qh8', {
-    host: 'localhost',
-    port: 5432,
-    dialect: 'postgres',
-    define: {
-        timestamps: false,
-        freezeTableName: true
-    }
-});
-
-const Editora = sequelize.define(
-    'editora',
-    {
-      // Model attributes are defined here
-      ideditora: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      nomeeditora: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
-      cnpj: {
-        type: DataTypes.STRING(30),
-        allowNull: false
-      },
-      endereco: {
-        type: DataTypes.TEXT,
-        allowNull: true
-      },
-    }
-  );
+//Testar conexão do banco
 
 try {
-    await sequelize.authenticate();
+    await banco.authenticate();
     console.log('Conexão feita com sucesso!');
   } catch (error) {
     console.error('Falha na conexão:', error);
@@ -47,35 +15,12 @@ try {
 const app = express();
 app.use(express.json());
 
-app.get('/editora', async (request,response)=>{
-    const respostaBanco = await Editora.findAll();
-    response.json(respostaBanco);
-});
+//CRUD Editora
 
-app.get('/editora/:ideditora', async (request,response)=>{
-    const id = request.params.ideditora;
-    const respostaBanco = await Editora.findByPk(id);
-    response.json(respostaBanco);
-});
-
-app.post('/editora', async (request,response)=>{
-    const respostaBanco = await Editora.create(request.body);
-    response.json(respostaBanco);
-});
-
-app.put('/editora/:ideditora', async (request,response)=>{
-    const nomeeditora = request.body.nomeeditora;
-    const cnpj = request.body.cnpj;
-    const endereco = request.body.endereco;
-    const ideditora = request.params.ideditora;
-    const respostaBanco = await Editora.update({nomeeditora, cnpj, endereco}, {where: {ideditora}});
-    response.json(respostaBanco);
-});
-
-app.delete('/editora/:ideditora', async (request,response)=>{
-    const ideditora = request.params.ideditora;
-    const respostaBanco = await Editora.destroy({where: {ideditora}});
-    response.json(respostaBanco);
-});
+app.get('/editora', editora.listar);
+app.get('/editora/:ideditora', editora.selecionar);
+app.post('/editora', editora.inserir);
+app.put('/editora/:ideditora', editora.editar);
+app.delete('/editora/:ideditora', editora.excluir);
 
 app.listen(6969, ()=>{console.log('Servidor rodando.')});
