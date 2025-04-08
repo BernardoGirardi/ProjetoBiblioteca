@@ -47,17 +47,13 @@ try {
 const app = express();
 app.use(express.json());
 
-app.get('/teste',(request,response)=>{
-    response.send('É os guri pae');
-});
-
 app.get('/editora', async (request,response)=>{
     const respostaBanco = await Editora.findAll();
     response.json(respostaBanco);
 });
 
-app.get('/editora/:id', async (request,response)=>{
-    const id = request.params.id;
+app.get('/editora/:ideditora', async (request,response)=>{
+    const id = request.params.ideditora;
     const respostaBanco = await Editora.findByPk(id);
     response.json(respostaBanco);
 });
@@ -67,17 +63,17 @@ app.post('/editora', async (request,response)=>{
     response.json(respostaBanco);
 });
 
-app.put('/editora/:id', async (request,response)=>{
+app.put('/editora/:ideditora', async (request,response)=>{
     const nomeeditora = request.body.nomeeditora;
     const cnpj = request.body.cnpj;
     const endereco = request.body.endereco;
-    const ideditora = request.params.id;
+    const ideditora = request.params.ideditora;
     const respostaBanco = await Editora.update({nomeeditora, cnpj, endereco}, {where: {ideditora}});
     response.json(respostaBanco);
 });
 
-app.delete('/editora/:id', async (request,response)=>{
-    const ideditora = request.params.id;
+app.delete('/editora/:ideditora', async (request,response)=>{
+    const ideditora = request.params.ideditora;
     const respostaBanco = await Editora.destroy({where: {ideditora}});
     response.json(respostaBanco);
 });
