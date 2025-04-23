@@ -6,6 +6,7 @@ import categoria from "./controller/CategoriaController.js";
 import livro from "./controller/LivroController.js";
 import usuario from "./controller/UsuarioController.js";
 import emprestimo from "./controller/EmprestimoController.js";
+import funcionario from "./controller/FuncionarioController.js"
 
 //Testar conexão do banco
 
@@ -69,5 +70,13 @@ app.get('/emprestimo/:idemprestimo', emprestimo.selecionar);
 app.post('/emprestar', emprestimo.emprestar);
 app.put('/devolver/:idemprestimo', emprestimo.devolver);
 
+//CRUD Funcionario
+
+app.get('/funcionario', funcionario.listar);
+app.get('/funcionario/:idfuncionario', funcionario.selecionar);
+app.post('/funcionario', funcionario.inserir);
+app.put('/funcionario/:idfuncionario', funcionario.editar);
+app.put('/trocarSenha/:idfuncionario', funcionario.trocarSenha);
+app.delete('/funcionario/:idfuncionario', funcionario.excluir);
 
 app.listen(6969, ()=>{console.log('Servidor rodando.')});
