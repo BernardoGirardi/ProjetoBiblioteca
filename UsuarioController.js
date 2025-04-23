@@ -1,4 +1,7 @@
+import { CHAR } from "sequelize";
 import Usuario from "../model/UsuarioModel.js";
+import bcrypt from "bcrypt";
+
 
 async function listar(request,response){
     const respostaBanco = await Usuario.findAll();
@@ -28,10 +31,24 @@ async function editar(request,response){
     response.json(respostaBanco);
 }
 
+//Questão 7
+async function trocarSenha(request,response){
+    const senha = request.body.senha;
+    const idusuario = request.params.idusuario;
+    const respostaBanco = await Usuario.update({senha}, {where: {idusuario}});
+    const usuarioBanco = await Usuario.findByPk(idusuario);
+    if(!usuarioBanco){
+        response.status(422).send('Este usuário não existe!');
+    }
+    //falta fazer validação para quantidade de caracteres
+
+    response.json(respostaBanco);
+}
+
 async function excluir(request,response){
     const idusuario = request.params.idusuario;
     const respostaBanco = await Usuario.destroy({where: {idusuario}});
     response.json(respostaBanco);
 }
 
-export default {listar, selecionar, inserir, editar, excluir};
+export default {listar, selecionar, inserir, editar, excluir, trocarSenha};
