@@ -8,6 +8,19 @@ async function listar(request,response){
     response.json(respostaBanco);
 }
 
+//Questão 12
+async function listarPendente(request,response){
+    const emprestimoBanco = await Emprestimo.findAll({
+        where: {
+          ativo: true,
+        },
+      });
+    
+      response.json(emprestimoBanco);
+    
+}
+
+
 async function selecionar(request,response){
     const id = request.params.idemprestimo;
     const respostaBanco = await Emprestimo.findByPk(id);
@@ -103,4 +116,4 @@ async function devolver(request,response){
 }
 
 
-export default {listar, selecionar, emprestar, devolver};
+export default {listar, selecionar, emprestar, devolver, listarPendente};
