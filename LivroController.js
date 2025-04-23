@@ -11,6 +11,18 @@ async function selecionar(request,response){
     response.json(respostaBanco);
 }
 
+//Questão 13
+async function listarDisponiveis(request,response){
+    const respostaBanco = await Livro.findAll({
+        where: {
+          emprestado: false,
+          ativo: true,
+        },
+      });
+    
+    response.json(respostaBanco);
+}
+
 async function inserir(request,response){
     const respostaBanco = await Livro.create(request.body);
     response.json(respostaBanco);
@@ -38,4 +50,4 @@ async function excluir(request,response){
     response.json(respostaBanco);
 }
 
-export default {listar, selecionar, inserir, editar, excluir};
+export default {listar, selecionar, inserir, editar, excluir, listarDisponiveis};

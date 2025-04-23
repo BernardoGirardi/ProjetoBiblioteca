@@ -46,6 +46,7 @@ app.delete('/categoria/:idcategoria', categoria.excluir);
 //CRUD Livro
 
 app.get('/livro', livro.listar);
+app.get('/listarDisponiveis', livro.listarDisponiveis);
 app.get('/livro/:idlivro', livro.selecionar);
 app.post('/livro', livro.inserir);
 app.put('/livro/:idlivro', livro.editar);
